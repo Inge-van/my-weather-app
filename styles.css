@@ -1,0 +1,42 @@
+h1 {
+  text-transform: capitalize;
+}
+h4 {
+  text-transform: capitalize;
+}
+.icon-today {
+  font-size: 90px;
+}
+.temp {
+  font-size: 30px;
+}
+.info-today {
+  position: absolute;
+  left: 60%;
+  top: 220px;
+  list-style: none;
+  line-height: 15px;
+}
+.daily-note {
+  position: relative;
+  left: 90px;
+  font-size: 14px;
+  font-style: italic;
+}
+.icon {
+  font-size: 40px;
+}
+.col {
+  text-align: center;
+}
+.card {
+  top: 40px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.card-body {
+  background-color: #d1f0ee;
+  color: #006ec5;
+  border: 5px solid #006ec5;
+  border-radius: 3px;
+}
