@@ -94,3 +94,66 @@ navigator.geolocation.getCurrentPosition(findLocation);
 
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", search);
+
+function dayTwo(date) {
+  let now = new Date();
+  let days = ["Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon"];
+  let day = days[now.getDay()];
+
+  return `${day}`;
+}
+function dayThree(date) {
+  let now = new Date();
+  let days = ["Wed", "Thu", "Fri", "Sat", "Sun", "Mon", "Tue"];
+  let day = days[now.getDay()];
+
+  return `${day}`;
+}
+function dayFour(date) {
+  let now = new Date();
+  let days = ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed"];
+  let day = days[now.getDay()];
+
+  return `${day}`;
+}
+
+function dayFive(date) {
+  let now = new Date();
+  let days = ["Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu"];
+  let day = days[now.getDay()];
+
+  return `${day}`;
+}
+
+function daySix(date) {
+  let now = new Date();
+  let days = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
+  let day = days[now.getDay()];
+
+  return `${day}`;
+}
+
+function daySeven(date) {
+  let now = new Date();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  let day = days[now.getDay()];
+
+  return `${day}`;
+}
+let daytwo = document.querySelector("#day-two");
+daytwo.innerHTML = dayTwo(currentTime);
+
+let daythree = document.querySelector("#day-three");
+daythree.innerHTML = dayThree(currentTime);
+
+let dayfour = document.querySelector("#day-four");
+dayfour.innerHTML = dayFour(currentTime);
+
+let dayfive = document.querySelector("#day-five");
+dayfive.innerHTML = dayFive(currentTime);
+
+let daysix = document.querySelector("#day-six");
+daysix.innerHTML = daySix(currentTime);
+
+let dayseven = document.querySelector("#day-seven");
+dayseven.innerHTML = daySeven(currentTime);
