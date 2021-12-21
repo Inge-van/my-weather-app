@@ -41,9 +41,6 @@ function currentDate(date) {
 
   return `${day}, ${month} ${currentDate}, ${year} ${hour}:${minute}`;
 }
-let h6 = document.querySelector("h6");
-let currentTime = new Date();
-h6.innerHTML = currentDate(currentTime);
 
 function search(event) {
   event.preventDefault();
@@ -62,8 +59,8 @@ function findSearchLocation(response) {
   let lat = response.data.coord.lat;
   let lon = response.data.coord.lon;
   let apiKey = "05a03039293f2ba6cca771310d6d32ef";
-  let apiUrlForecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&appid=${apiKey}&units=metric`;
-  axios.get(apiUrlForecast).then(showTempForecast);
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayForecast);
 }
 function showTemperature(response) {
   let currentCity = document.querySelector("#city");
@@ -96,74 +93,6 @@ function showTemperature(response) {
   iconElement.setAttribute("alt", response.data.weather[0].description);
 }
 
-function showTempForecast(response) {
-  let icon1Element = document.querySelector("#dayone-icon");
-  let icon2Element = document.querySelector("#daytwo-icon");
-  let icon3Element = document.querySelector("#daythree-icon");
-  let icon4Element = document.querySelector("#dayfour-icon");
-  let icon5Element = document.querySelector("#dayfive-icon");
-  let icon6Element = document.querySelector("#daysix-icon");
-  let icon7Element = document.querySelector("#dayseven-icon");
-
-  icon1Element.setAttribute(
-    "src",
-    `http://openweathermap.org/img/wn/${response.data.daily[1].weather[0].icon}@2x.png`
-  );
-  icon2Element.setAttribute(
-    "src",
-    `http://openweathermap.org/img/wn/${response.data.daily[2].weather[0].icon}@2x.png`
-  );
-  icon3Element.setAttribute(
-    "src",
-    `http://openweathermap.org/img/wn/${response.data.daily[3].weather[0].icon}@2x.png`
-  );
-  icon4Element.setAttribute(
-    "src",
-    `http://openweathermap.org/img/wn/${response.data.daily[4].weather[0].icon}@2x.png`
-  );
-  icon5Element.setAttribute(
-    "src",
-    `http://openweathermap.org/img/wn/${response.data.daily[5].weather[0].icon}@2x.png`
-  );
-  icon6Element.setAttribute(
-    "src",
-    `http://openweathermap.org/img/wn/${response.data.daily[6].weather[0].icon}@2x.png`
-  );
-  icon7Element.setAttribute(
-    "src",
-    `http://openweathermap.org/img/wn/${response.data.daily[7].weather[0].icon}@2x.png`
-  );
-
-  let tempdayone = document.querySelector("#dayonetemp");
-  let tempdaytwo = document.querySelector("#daytwotemp");
-  let tempdaythree = document.querySelector("#daythreetemp");
-  let tempdayfour = document.querySelector("#dayfourtemp");
-  let tempdayfive = document.querySelector("#dayfivetemp");
-  let tempdaysix = document.querySelector("#daysixtemp");
-  let tempdayseven = document.querySelector("#dayseventemp");
-
-  let tempone = Math.round(response.data.daily[1].temp.day);
-  tempdayone.innerHTML = `${tempone}°C`;
-
-  let temptwo = Math.round(response.data.daily[2].temp.day);
-  tempdaytwo.innerHTML = `${temptwo}°C`;
-
-  let tempthree = Math.round(response.data.daily[3].temp.day);
-  tempdaythree.innerHTML = `${tempthree}°C`;
-
-  let tempfour = Math.round(response.data.daily[4].temp.day);
-  tempdayfour.innerHTML = `${tempfour}°C`;
-
-  let tempfive = Math.round(response.data.daily[5].temp.day);
-  tempdayfive.innerHTML = `${tempfive}°C`;
-
-  let tempsix = Math.round(response.data.daily[6].temp.day);
-  tempdaysix.innerHTML = `${tempsix}°C`;
-
-  let tempseven = Math.round(response.data.daily[7].temp.day);
-  tempdayseven.innerHTML = `${tempseven}°C`;
-}
-
 function findLocation(position) {
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
@@ -171,73 +100,45 @@ function findLocation(position) {
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
   let apiUrlForecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(showTemperature);
-  axios.get(apiUrlForecast).then(showTempForecast);
+  axios.get(apiUrlForecast).then(displayForecast);
 }
+
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return days[day];
+}
+function displayForecast(response) {
+  let forecast = response.data.daily;
+  let forecastElement = document.querySelector("#forecast");
+
+  let forecastHTML = `<div class="row">`;
+  forecast.forEach(function (forecastDay, index) {
+    if (index < 7) {
+      forecastHTML =
+        forecastHTML +
+        `<div class="col">
+    <span id="dayone"> ${formatDay(forecastDay.dt)}</span>
+    <br />
+    <img src="http://openweathermap.org/img/wn/${
+      forecastDay.weather[0].icon
+    }@2x.png" alt="tomorrow" id="dayone-icon" width="60px" />
+    <br />
+    <span id="dayonetemp">${Math.round(forecastDay.temp.max)}°C</span>
+  </div>`;
+    }
+  });
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+
+let h6 = document.querySelector("h6");
+let currentTime = new Date();
+h6.innerHTML = currentDate(currentTime);
 
 navigator.geolocation.getCurrentPosition(findLocation);
 
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", search);
-
-function dayTwo(date) {
-  let now = new Date();
-  let days = ["Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon"];
-  let day = days[now.getDay()];
-
-  return `${day}`;
-}
-function dayThree(date) {
-  let now = new Date();
-  let days = ["Wed", "Thu", "Fri", "Sat", "Sun", "Mon", "Tue"];
-  let day = days[now.getDay()];
-
-  return `${day}`;
-}
-function dayFour(date) {
-  let now = new Date();
-  let days = ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed"];
-  let day = days[now.getDay()];
-
-  return `${day}`;
-}
-
-function dayFive(date) {
-  let now = new Date();
-  let days = ["Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu"];
-  let day = days[now.getDay()];
-
-  return `${day}`;
-}
-
-function daySix(date) {
-  let now = new Date();
-  let days = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
-  let day = days[now.getDay()];
-
-  return `${day}`;
-}
-
-function daySeven(date) {
-  let now = new Date();
-  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  let day = days[now.getDay()];
-
-  return `${day}`;
-}
-let daytwo = document.querySelector("#day-two");
-daytwo.innerHTML = dayTwo(currentTime);
-
-let daythree = document.querySelector("#day-three");
-daythree.innerHTML = dayThree(currentTime);
-
-let dayfour = document.querySelector("#day-four");
-dayfour.innerHTML = dayFour(currentTime);
-
-let dayfive = document.querySelector("#day-five");
-dayfive.innerHTML = dayFive(currentTime);
-
-let daysix = document.querySelector("#day-six");
-daysix.innerHTML = daySix(currentTime);
-
-let dayseven = document.querySelector("#day-seven");
-dayseven.innerHTML = daySeven(currentTime);
