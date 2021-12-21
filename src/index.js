@@ -62,8 +62,8 @@ function findSearchLocation(response) {
   let lat = response.data.coord.lat;
   let lon = response.data.coord.lon;
   let apiKey = "05a03039293f2ba6cca771310d6d32ef";
-  let apiUrlForcast = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&appid=${apiKey}&units=metric`;
-  axios.get(apiUrlForcast).then(showTempForcast);
+  let apiUrlForecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&appid=${apiKey}&units=metric`;
+  axios.get(apiUrlForecast).then(showTempForecast);
 }
 function showTemperature(response) {
   let currentCity = document.querySelector("#city");
@@ -96,7 +96,7 @@ function showTemperature(response) {
   iconElement.setAttribute("alt", response.data.weather[0].description);
 }
 
-function showTempForcast(response) {
+function showTempForecast(response) {
   let icon1Element = document.querySelector("#dayone-icon");
   let icon2Element = document.querySelector("#daytwo-icon");
   let icon3Element = document.querySelector("#daythree-icon");
@@ -169,9 +169,9 @@ function findLocation(position) {
   let lon = position.coords.longitude;
   let apiKey = "05a03039293f2ba6cca771310d6d32ef";
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-  let apiUrlForcast = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&appid=${apiKey}&units=metric`;
+  let apiUrlForecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(showTemperature);
-  axios.get(apiUrlForcast).then(showTempForcast);
+  axios.get(apiUrlForecast).then(showTempForecast);
 }
 
 navigator.geolocation.getCurrentPosition(findLocation);
