@@ -63,7 +63,7 @@ function showTemperature(response) {
 
   let currentTemp = document.querySelector("#temperature");
   let temp = Math.round(response.data.main.temp);
-  currentTemp.innerHTML = `${temp}°C`;
+  currentTemp.innerHTML = `${temp}`;
 
   let description = document.querySelector("#description");
   description.innerHTML = response.data.weather[0].description;
@@ -88,13 +88,53 @@ function showTemperature(response) {
   iconElement.setAttribute("alt", response.data.weather[0].description);
 }
 
+function showTempForcast(response) {
+  console.log(response.data.daily[1]);
+  let icon1Element = document.querySelector("#dayone-icon");
+  icon1Element.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${response.data.daily[1].weather[0].icon}@2x.png`
+  );
+  let icon2Element = document.querySelector("#daytwo-icon");
+  icon2Element.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${response.data.daily[2].weather[0].icon}@2x.png`
+  );
+  let icon3Element = document.querySelector("#daythree-icon");
+  icon3Element.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${response.data.daily[3].weather[0].icon}@2x.png`
+  );
+  let icon4Element = document.querySelector("#dayfour-icon");
+  icon4Element.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${response.data.daily[4].weather[0].icon}@2x.png`
+  );
+  let icon5Element = document.querySelector("#dayfive-icon");
+  icon5Element.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${response.data.daily[5].weather[0].icon}@2x.png`
+  );
+  let icon6Element = document.querySelector("#daysix-icon");
+  icon6Element.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${response.data.daily[6].weather[0].icon}@2x.png`
+  );
+  let icon7Element = document.querySelector("#dayseven-icon");
+  icon7Element.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${response.data.daily[7].weather[0].icon}@2x.png`
+  );
+}
+
 function findLocation(position) {
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
   let apiKey = "05a03039293f2ba6cca771310d6d32ef";
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-
+  let apiUrlForcast = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(showTemperature);
+  axios.get(apiUrlForcast).then(showTempForcast);
 }
 
 navigator.geolocation.getCurrentPosition(findLocation);
