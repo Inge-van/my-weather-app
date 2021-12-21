@@ -89,42 +89,72 @@ function showTemperature(response) {
 }
 
 function showTempForcast(response) {
-  console.log(response.data.daily[1]);
+  console.log(response.data.daily[1].temp.day);
   let icon1Element = document.querySelector("#dayone-icon");
+  let icon2Element = document.querySelector("#daytwo-icon");
+  let icon3Element = document.querySelector("#daythree-icon");
+  let icon4Element = document.querySelector("#dayfour-icon");
+  let icon5Element = document.querySelector("#dayfive-icon");
+  let icon6Element = document.querySelector("#daysix-icon");
+  let icon7Element = document.querySelector("#dayseven-icon");
+
   icon1Element.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${response.data.daily[1].weather[0].icon}@2x.png`
   );
-  let icon2Element = document.querySelector("#daytwo-icon");
   icon2Element.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${response.data.daily[2].weather[0].icon}@2x.png`
   );
-  let icon3Element = document.querySelector("#daythree-icon");
   icon3Element.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${response.data.daily[3].weather[0].icon}@2x.png`
   );
-  let icon4Element = document.querySelector("#dayfour-icon");
   icon4Element.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${response.data.daily[4].weather[0].icon}@2x.png`
   );
-  let icon5Element = document.querySelector("#dayfive-icon");
   icon5Element.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${response.data.daily[5].weather[0].icon}@2x.png`
   );
-  let icon6Element = document.querySelector("#daysix-icon");
   icon6Element.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${response.data.daily[6].weather[0].icon}@2x.png`
   );
-  let icon7Element = document.querySelector("#dayseven-icon");
   icon7Element.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${response.data.daily[7].weather[0].icon}@2x.png`
   );
+
+  let tempdayone = document.querySelector("#dayonetemp");
+  let tempdaytwo = document.querySelector("#daytwotemp");
+  let tempdaythree = document.querySelector("#daythreetemp");
+  let tempdayfour = document.querySelector("#dayfourtemp");
+  let tempdayfive = document.querySelector("#dayfivetemp");
+  let tempdaysix = document.querySelector("#daysixtemp");
+  let tempdayseven = document.querySelector("#dayseventemp");
+
+  let tempone = Math.round(response.data.daily[1].temp.day);
+  tempdayone.innerHTML = `${tempone}°C`;
+
+  let temptwo = Math.round(response.data.daily[2].temp.day);
+  tempdaytwo.innerHTML = `${temptwo}°C`;
+
+  let tempthree = Math.round(response.data.daily[3].temp.day);
+  tempdaythree.innerHTML = `${tempthree}°C`;
+
+  let tempfour = Math.round(response.data.daily[4].temp.day);
+  tempdayfour.innerHTML = `${tempfour}°C`;
+
+  let tempfive = Math.round(response.data.daily[5].temp.day);
+  tempdayfive.innerHTML = `${tempfive}°C`;
+
+  let tempsix = Math.round(response.data.daily[6].temp.day);
+  tempdaysix.innerHTML = `${tempsix}°C`;
+
+  let tempseven = Math.round(response.data.daily[7].temp.day);
+  tempdayseven.innerHTML = `${tempseven}°C`;
 }
 
 function findLocation(position) {
