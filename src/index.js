@@ -56,6 +56,14 @@ function search(event) {
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
 
   axios.get(apiUrl).then(showTemperature);
+  axios.get(apiUrl).then(findSearchLocation);
+}
+function findSearchLocation(response) {
+  let lat = response.data.coord.lat;
+  let lon = response.data.coord.lon;
+  let apiKey = "05a03039293f2ba6cca771310d6d32ef";
+  let apiUrlForcast = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&appid=${apiKey}&units=metric`;
+  axios.get(apiUrlForcast).then(showTempForcast);
 }
 function showTemperature(response) {
   let currentCity = document.querySelector("#city");
@@ -89,7 +97,6 @@ function showTemperature(response) {
 }
 
 function showTempForcast(response) {
-  console.log(response.data.daily[1].temp.day);
   let icon1Element = document.querySelector("#dayone-icon");
   let icon2Element = document.querySelector("#daytwo-icon");
   let icon3Element = document.querySelector("#daythree-icon");
